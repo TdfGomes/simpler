@@ -1,8 +1,14 @@
 import React from 'react';
+import NavBar from './common/NavBar';
 import Routes from '../routes';
 
 function App() {
-  return <Routes />;
+  return (
+    <React.Fragment>
+      <NavBar />
+      <Routes />
+    </React.Fragment>
+  );
 }
 
 export default App;
