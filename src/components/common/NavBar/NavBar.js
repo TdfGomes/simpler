@@ -2,28 +2,45 @@ import React from 'react';
 import NavItem from './NavItem';
 import styled from 'styled-components';
 
-export const NavWrapper = styled('nav')`
+export const Nav = styled('nav')`
   width: 100%;
   margin: 0;
   padding: 2px;
 `;
 
-export const Nav = styled('ul')`
+export const UL = styled('ul')`
   margin: 0;
   padding: 0;
   list-style: none;
 `;
 
 function NavBar() {
-  const items = [{ icon: 'test' }, { icon: 'test1' }, { icon: 'test2' }, { icon: 'test3' }];
+  const items = [
+    {
+      to: '/edit',
+      icon: 'Edit',
+    },
+    {
+      to: '/efxs',
+      icon: 'Efxs',
+    },
+    {
+      to: '/record',
+      icon: 'Record',
+    },
+    {
+      to: '/settings',
+      icon: 'Settings',
+    },
+  ];
   return (
-    <NavWrapper>
-      <Nav>
-        {items.map(({ icon }, i) => (
-          <NavItem icon={icon} key={i} />
+    <Nav>
+      <UL>
+        {items.map((item, i) => (
+          <NavItem {...item} key={i} />
         ))}
-      </Nav>
-    </NavWrapper>
+      </UL>
+    </Nav>
   );
 }
 
