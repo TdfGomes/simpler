@@ -1,6 +1,7 @@
 import React from 'react';
 import NavItem from './NavItem';
 import styled from 'styled-components';
+import {items} from './config'
 
 export const Nav = styled('nav')`
   width: 100%;
@@ -15,24 +16,7 @@ export const UL = styled('ul')`
 `;
 
 function NavBar() {
-  const items = [
-    {
-      to: '/edit',
-      icon: 'Edit',
-    },
-    {
-      to: '/efxs',
-      icon: 'Efxs',
-    },
-    {
-      to: '/record',
-      icon: 'Record',
-    },
-    {
-      to: '/settings',
-      icon: 'Settings',
-    },
-  ];
+
   return (
     <Nav>
       <UL>

@@ -16,13 +16,13 @@ const Li = styled('li')`
 function NavItem({ icon, to }) {
   return (
     <Li>
-      <Link to={to}>{icon}</Link>
+      <Link to={to}>{React.createElement(icon)}</Link>
     </Li>
   );
 }
 
 NavItem.propTypes = {
-  icon: PropTypes.node.isRequired,
+  icon: PropTypes.func.isRequired,
   to: PropTypes.string.isRequired,
 };
 
