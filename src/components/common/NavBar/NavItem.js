@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const Li = styled('li')`
-  width: 55px;
-  height: 55px;
+  width: 45px;
+  height: 45px;
   margin-right: 2px;
   padding: 5px;
   display: inline-block;
