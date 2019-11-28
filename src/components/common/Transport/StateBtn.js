@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
 import { PlayBtn, RecBtn, StopBtn } from '../icons';
 
-function StateBtn({ state }) {
-  const renderBtn = () => {
+function StateBtn({ getRecordingState }) {
+  const [state, setState] = useState(0);
+  function handleClick(e) {
+    e.preventDefault();
+    if (state === 1) {
+      setState(2);
+    } else {
+      setState(1);
+    }
+    getRecordingState(state);
+  }
+  function renderBtn() {
     switch (state) {
       case 0:
         return <RecBtn />;
@@ -15,12 +25,12 @@ function StateBtn({ state }) {
       default:
         return <RecBtn />;
     }
-  };
-  return <Button>{renderBtn()}</Button>;
+  }
+  return <Button onClick={handleClick}>{renderBtn()}</Button>;
 }
 
 StateBtn.propTypes = {
-  state: PropTypes.number.isRequired,
+  getRecordingState: PropTypes.func.isRequired,
 };
 
 export default StateBtn;
