@@ -1,11 +1,12 @@
 import React from 'react';
 import Transport from '../common/Transport';
-import { RECORDING_STATE } from '../../utils';
+import { getUserMedia } from '../../utils';
 
 function Record() {
   function handleClick(state) {
-    console.log(state);
-    console.log(RECORDING_STATE[state]);
+    if (state === 0) {
+      getUserMedia();
+    }
   }
   return (
     <React.Fragment>
