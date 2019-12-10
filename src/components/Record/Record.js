@@ -1,11 +1,12 @@
 import React from 'react';
 import Transport from '../common/Transport';
-import { getUserMedia } from '../../utils';
+import { transportModule } from '../../utils';
 
 function Record() {
   function handleClick(state) {
+    const audioStream = transportModule(navigator);
     if (state === 0) {
-      getUserMedia();
+      audioStream.record();
     }
   }
   return (
