@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
 import { PlayBtn, RecBtn, StopBtn } from '../icons';
+import { RECORDING_STATE } from '../../../utils';
 
 function StateBtn({ getRecordingState }) {
   const [state, setState] = useState(0);
@@ -12,7 +13,7 @@ function StateBtn({ getRecordingState }) {
     } else {
       setState(1);
     }
-    getRecordingState(state);
+    getRecordingState(RECORDING_STATE[state]);
   }
   function renderBtn() {
     switch (state) {

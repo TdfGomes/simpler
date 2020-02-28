@@ -3,12 +3,22 @@ import Transport from '../common/Transport';
 import { transportModule } from '../../utils';
 
 function Record() {
-  function handleClick(state) {
-    const audioStream = transportModule(navigator);
-    if (state === 0) {
-      audioStream.record();
+  const [audioStream, setAudioStream] = React.useState(null);
+
+  React.useEffect(() => {
+    async function initAudioStream() {
+      const constrains = { audio: true };
+      const stream = await navigator.mediaDevices.getUserMedia(constrains);
+      const transport = transportModule(stream);
+      setAudioStream(transport);
     }
+    initAudioStream();
+  }, []);
+
+  function handleClick(state) {
+    audioStream[state]();
   }
+
   return (
     <React.Fragment>
       <h1>Record PAGE</h1>
