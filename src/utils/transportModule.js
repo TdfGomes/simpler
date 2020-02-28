@@ -3,26 +3,12 @@ export function transportModule(stream) {
   let audio;
   const mediaRecorder = new MediaRecorder(stream);
 
-  mediaRecorder.onstop = () => {
-    console.log('data available after MediaRecorder.stop() called.');
-    const blob = new Blob(audioChunks);
-    audioChunks = [];
-    const audioURL = URL.createObjectURL(blob);
-    audio = new Audio(audioURL);
-    console.log('audioURL', audioURL);
-    console.log('recorder stopped');
-  };
-
-  mediaRecorder.ondataavailable = function(e) {
-    audioChunks.push(e.data);
-    console.log('audioChunks', audioChunks);
-  };
-
   const record = () => {
     mediaRecorder.start();
     console.log('record');
     console.log('mediaRecoder state:', mediaRecorder.state);
   };
+
   const stop = () => {
     if (audio) {
       audio.pause();
@@ -39,6 +25,21 @@ export function transportModule(stream) {
     if (audio) {
       audio.play();
     }
+  };
+
+  mediaRecorder.onstop = () => {
+    console.log('data available after MediaRecorder.stop() called.');
+    const blob = new Blob(audioChunks);
+    audioChunks = [];
+    const audioURL = URL.createObjectURL(blob);
+    audio = new Audio(audioURL);
+    console.log('audioURL', audioURL);
+    console.log('recorder stopped');
+  };
+
+  mediaRecorder.ondataavailable = function(e) {
+    audioChunks.push(e.data);
+    console.log('audioChunks', audioChunks);
   };
 
   return {

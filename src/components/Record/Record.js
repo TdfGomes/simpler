@@ -2,18 +2,14 @@ import React from 'react';
 import Transport from '../common/Transport';
 import { transportModule } from '../../utils';
 
-function Record() {
-  const [audioStream, setAudioStream] = React.useState(null);
+async function initAudioStream() {
+  const constrains = { audio: true };
+  const stream = await navigator.mediaDevices.getUserMedia(constrains);
+  return transportModule(stream);
+}
 
-  React.useEffect(() => {
-    async function initAudioStream() {
-      const constrains = { audio: true };
-      const stream = await navigator.mediaDevices.getUserMedia(constrains);
-      const transport = transportModule(stream);
-      setAudioStream(transport);
-    }
-    initAudioStream();
-  }, []);
+function Record() {
+  const audioStream = initAudioStream();
 
   function handleClick(state) {
     audioStream[state]();
