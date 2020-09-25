@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TransportButton from './TransportButton';
 import { ButtonsWrapper } from './Button';
@@ -19,21 +18,17 @@ const StyledTransport = styled('div')`
   transform: translate3d(-50%, 0, 0);
 `;
 
-function Transport({ getRecordingState }) {
+function Transport() {
   return (
     <StyledTransport>
       <Timer />
       <ButtonsWrapper>
         <TransportButton icon={RewindBtn} />
-        <StateBtn getRecordingState={getRecordingState} />
+        <StateBtn />
         <TransportButton icon={FFBtn} />
       </ButtonsWrapper>
     </StyledTransport>
   );
 }
-
-Transport.propTypes = {
-  getRecordingState: PropTypes.func.isRequired,
-};
 
 export default Transport;

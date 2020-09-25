@@ -1,27 +1,31 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import Button from './Button';
 import { PlayBtn, RecBtn, StopBtn } from '../icons';
-import { RECORDING_STATE } from '../../../utils';
+import { Context } from '../../AppContext';
 
-function StateBtn({ getRecordingState }) {
-  const [state, setState] = useState(0);
-  function handleClick(e) {
+import { PLAY, STOP } from '../../../store/actions';
+
+function StateBtn() {
+  const [{ recorderState, transport }, dispatch] = useContext(Context);
+
+  async function handleClick(e) {
     e.preventDefault();
-    if (state === 1) {
-      setState(2);
+    const t = await transport();
+    if (recorderState === 'stop') {
+      dispatch({ type: PLAY });
     } else {
-      setState(1);
+      dispatch({ type: STOP });
     }
-    getRecordingState(RECORDING_STATE[state]);
+    t[recorderState]();
   }
+
   function renderBtn() {
-    switch (state) {
-      case 0:
+    switch (recorderState) {
+      case 'record':
         return <RecBtn />;
-      case 1:
+      case 'stop':
         return <StopBtn />;
-      case 2:
+      case 'play':
         return <PlayBtn />;
       default:
         return <RecBtn />;
@@ -29,9 +33,5 @@ function StateBtn({ getRecordingState }) {
   }
   return <Button onClick={handleClick}>{renderBtn()}</Button>;
 }
-
-StateBtn.propTypes = {
-  getRecordingState: PropTypes.func.isRequired,
-};
 
 export default StateBtn;

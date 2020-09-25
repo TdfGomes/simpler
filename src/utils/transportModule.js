@@ -37,7 +37,7 @@ export function transportModule(stream) {
     console.log('recorder stopped');
   };
 
-  mediaRecorder.ondataavailable = function(e) {
+  mediaRecorder.ondataavailable = e => {
     audioChunks.push(e.data);
     console.log('audioChunks', audioChunks);
   };
