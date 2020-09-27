@@ -1,24 +1,21 @@
+let audio;
+let audioChunks = [];
 let mediaRecorder;
 
-export async function initAudioStream() {
+async function init() {
   const constrains = { audio: true };
   const stream = await navigator.mediaDevices.getUserMedia(constrains);
   mediaRecorder = await new MediaRecorder(stream);
 }
 
 export async function transport() {
-  let audioChunks = [];
-  let audio;
-
   if (!mediaRecorder) {
-    await initAudioStream();
+    await init();
   }
-
-  console.log('mediaRecoder:', mediaRecorder.stream.id);
 
   const record = () => {
     mediaRecorder.start();
-    console.log('record');
+    console.log('%crecord', 'color:red');
     console.log('mediaRecoder:', mediaRecorder.stream.id);
     console.log('mediaRecoder state:', mediaRecorder.state);
   };
@@ -31,7 +28,7 @@ export async function transport() {
     if (mediaRecorder.state === 'recording') {
       mediaRecorder.stop();
     }
-    console.log('stop');
+    console.log('%cstop', 'color:orange');
     console.log('mediaRecoder:', mediaRecorder.stream.id);
     console.log('mediaRecoder state:', mediaRecorder.state);
   };
@@ -40,23 +37,21 @@ export async function transport() {
     if (audio) {
       audio.play();
     }
-    console.log('play');
+    console.log('%cplay', 'color:green');
   };
 
   mediaRecorder.onstop = () => {
-    console.log('data available after MediaRecorder.stop() called.');
-    const blob = new Blob(audioChunks);
-    // audioChunks = [];
+    const blob = new Blob(audioChunks, { type: 'audio/ogg; codecs=opus' });
     const audioURL = URL.createObjectURL(blob);
     audio = new Audio(audioURL);
+
+    console.log('data available after MediaRecorder.stop() called.');
+    console.log('audio', audio);
     console.log('audioURL', audioURL);
     console.log('recorder stopped');
   };
 
-  mediaRecorder.ondataavailable = e => {
-    audioChunks.push(e.data);
-    console.log('audioChunks', audioChunks);
-  };
+  mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
 
   return {
     record,
