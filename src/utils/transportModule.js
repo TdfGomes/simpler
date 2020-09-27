@@ -1,11 +1,25 @@
-export function transportModule(stream) {
+let mediaRecorder;
+
+export async function initAudioStream() {
+  const constrains = { audio: true };
+  const stream = await navigator.mediaDevices.getUserMedia(constrains);
+  mediaRecorder = await new MediaRecorder(stream);
+}
+
+export async function transport() {
   let audioChunks = [];
   let audio;
-  const mediaRecorder = new MediaRecorder(stream);
+
+  if (!mediaRecorder) {
+    await initAudioStream();
+  }
+
+  console.log('mediaRecoder:', mediaRecorder.stream.id);
 
   const record = () => {
     mediaRecorder.start();
     console.log('record');
+    console.log('mediaRecoder:', mediaRecorder.stream.id);
     console.log('mediaRecoder state:', mediaRecorder.state);
   };
 
@@ -18,6 +32,7 @@ export function transportModule(stream) {
       mediaRecorder.stop();
     }
     console.log('stop');
+    console.log('mediaRecoder:', mediaRecorder.stream.id);
     console.log('mediaRecoder state:', mediaRecorder.state);
   };
 
@@ -25,12 +40,13 @@ export function transportModule(stream) {
     if (audio) {
       audio.play();
     }
+    console.log('play');
   };
 
   mediaRecorder.onstop = () => {
     console.log('data available after MediaRecorder.stop() called.');
     const blob = new Blob(audioChunks);
-    audioChunks = [];
+    // audioChunks = [];
     const audioURL = URL.createObjectURL(blob);
     audio = new Audio(audioURL);
     console.log('audioURL', audioURL);
