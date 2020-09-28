@@ -3,8 +3,7 @@ import Button from './Button';
 import { PlayBtn, RecBtn, StopBtn } from '../icons';
 import { Context } from '../../AppContext';
 
-import { PLAY, STOP } from '../../../store/actions';
-import { transport } from '../../../utils';
+import { transport, getNextState, getNextAction } from '../../../utils';
 
 function StateBtn() {
   const [{ recorderState }, dispatch] = useContext(Context);
@@ -13,17 +12,12 @@ function StateBtn() {
     e.preventDefault();
 
     const t = await transport();
-
-    if (recorderState === 'stop') {
-      dispatch({ type: PLAY });
-    } else {
-      dispatch({ type: STOP });
-    }
-    t[recorderState]();
+    dispatch({ type: getNextAction(recorderState) });
+    t[getNextState(recorderState)]();
   };
 
   const renderBtn = () => {
-    switch (recorderState) {
+    switch (getNextState(recorderState)) {
       case 'record':
         return <RecBtn />;
       case 'stop':

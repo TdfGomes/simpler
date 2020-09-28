@@ -2,7 +2,7 @@ import React, { createContext, useReducer, useMemo } from 'react';
 import * as actions from '../../store/actions';
 
 const initialState = {
-  recorderState: 'record',
+  recorderState: 'inactive',
 };
 
 function reducer(state, action) {
