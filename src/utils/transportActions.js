@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
 let audio;
-let audioChunks = [];
+let recordedChunks = [];
 let mediaRecorder;
 
 async function init() {
@@ -15,7 +16,7 @@ export async function transport() {
 
   const record = () => {
     mediaRecorder.start();
-    console.log('%crecord', 'color:red');
+    console.log('%crecord', 'color:#f11');
     console.log('mediaRecoder:', mediaRecorder.stream.id);
     console.log('mediaRecoder state:', mediaRecorder.state);
   };
@@ -37,22 +38,22 @@ export async function transport() {
     if (audio) {
       audio.play();
     }
-    console.log('%cplay', 'color:green');
+    console.log('%cplay', 'color:#4c2');
   };
 
   mediaRecorder.onstop = () => {
-    const blob = new Blob(audioChunks, { type: 'audio/ogg; codecs=opus' });
+    const blob = new Blob(recordedChunks);
     const audioURL = URL.createObjectURL(blob);
     audio = new Audio(audioURL);
 
-    console.log('data available after MediaRecorder.stop() called.');
-    console.log('audio', audio);
-    console.log('audioURL', audioURL);
-    console.log('recorder stopped');
+    console.log('%crecorder stopped', 'color:#f25');
   };
 
-  mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-
+  mediaRecorder.ondataavailable = e => {
+    if (e.data.size > 0) {
+      recordedChunks.push(e.data);
+    }
+  };
   return {
     record,
     stop,
