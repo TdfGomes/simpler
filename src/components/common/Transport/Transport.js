@@ -12,8 +12,8 @@ const StyledTransport = styled('div')`
   justify-content: space-between;
   align-items: center;
   width: 360px;
-  position: fixed;
-  bottom: 15px;
+  position: absolute;
+  bottom: 0px;
   left: 50%;
   transform: translate3d(-50%, 0, 0);
 `;
